@@ -129,11 +129,12 @@
       }
 
       function print(data) {
-        console.log(data) // hiển thị kết quả từ API.py trả về
+        data = JSON.parse(data)
         var resultTable = document.getElementById("result-table")
-        for (var i = 0; i < 10; i++) { // thay i < 10 bằng i < data.length hay cái gì đó tương tự
-          var tag = 'tag' + i; // tách cái tag của data tại i rồi gán vô biến tag
-          var value = 'value' + i; // tách cái value của data tại i rồi gán vô biến value
+        resultTable.innerHTML = ""
+        for (var i = 0; i < data.length; i++) {
+          var tag = data[i].split(", ")[0];
+          var value = data[i].split(", ")[1];
           var tagDiv = document.createElement("div");
           tagDiv.innerHTML = `
             <div class="tags has-addons" style="padding: 10px">
@@ -162,7 +163,7 @@
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
-        var raw = jsonify.stringify({ Model: modelName });
+        var raw = JSON.stringify({ Model: modelName });
 
         var requestOptions = {
           method: "POST",
